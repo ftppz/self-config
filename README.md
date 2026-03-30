@@ -42,7 +42,9 @@ chmod +x ./quick_setup.sh
 - It performs network downloads during execution.
 - Use `./quick_setup.sh --help` to view script behavior.
 
-prompt  
+## Prompt  
 for oh-my-bash  
+``
 PS1="$(clock_prompt)$spack_env$python_venv ${_omb_prompt_bold_teal}\W $(scm_prompt_char_info)${ret_status}$ ${_omb_prompt_normal}"
+``
 
