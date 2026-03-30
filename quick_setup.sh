@@ -3,6 +3,31 @@ set -euo pipefail
 
 # Run from any location: resolve this script's directory as source dotfiles dir.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPLACE_FROM="luff"
+REPLACE_TO="${1:-}"
+
+if [[ "${REPLACE_TO}" == "-h" || "${REPLACE_TO}" == "--help" ]]; then
+  cat <<'EOF'
+Usage:
+  ./quick_setup.sh [new_name]
+
+Optional argument:
+  new_name    Replace keyword "luff" in .bashrc, .vimrc, and .tmux.conf in this directory.
+EOF
+  exit 0
+fi
+
+if [[ -n "${REPLACE_TO}" ]]; then
+  echo "[pre] Replace keyword \"${REPLACE_FROM}\" -> \"${REPLACE_TO}\" in dotfiles..."
+  for target in ".bashrc" ".vimrc" ".tmux.conf"; do
+    file="${SCRIPT_DIR}/${target}"
+    if [[ -f "${file}" ]]; then
+      REPLACE_TO="${REPLACE_TO}" perl -i -pe 's/\bluff\b/$ENV{REPLACE_TO}/g' "${file}"
+    else
+      echo "Warning: ${file} not found, skipped replacement." >&2
+    fi
+  done
+fi
 
 echo "[1/5] Install oh-my-bash..."
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
