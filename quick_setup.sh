@@ -4,33 +4,39 @@ set -euo pipefail
 # Run from any location: resolve this script's directory as source dotfiles dir.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPLACE_FROM="luff"
-REPLACE_TO="${1:-}"
+REPLACE_TO="${USER:-}"
+if [[ -z "${REPLACE_TO}" ]]; then
+  REPLACE_TO="$(id -un)"
+fi
 
-if [[ "${REPLACE_TO}" == "-h" || "${REPLACE_TO}" == "--help" ]]; then
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   cat <<'EOF'
 Usage:
-  ./quick_setup.sh [new_name]
+  ./quick_setup.sh
 
-Optional argument:
-  new_name    Replace keyword "luff" in .bashrc, .vimrc, and .tmux.conf in this directory.
+Behavior:
+  Replace keyword "luff" with current shell user from $USER
+  in .bashrc, .vimrc, and .tmux.conf in this directory.
 EOF
   exit 0
 fi
 
-if [[ -n "${REPLACE_TO}" ]]; then
-  echo "[pre] Replace keyword \"${REPLACE_FROM}\" -> \"${REPLACE_TO}\" in dotfiles..."
-  for target in ".bashrc" ".vimrc" ".tmux.conf"; do
-    file="${SCRIPT_DIR}/${target}"
-    if [[ -f "${file}" ]]; then
-      REPLACE_TO="${REPLACE_TO}" perl -i -pe 's/\bluff\b/$ENV{REPLACE_TO}/g' "${file}"
-    else
-      echo "Warning: ${file} not found, skipped replacement." >&2
-    fi
-  done
-fi
+echo "[pre] Replace keyword \"${REPLACE_FROM}\" -> \"${REPLACE_TO}\" in dotfiles..."
+for target in ".bashrc" ".vimrc" ".tmux.conf"; do
+  file="${SCRIPT_DIR}/${target}"
+  if [[ -f "${file}" ]]; then
+    REPLACE_TO="${REPLACE_TO}" perl -i -pe 's/\bluff\b/$ENV{REPLACE_TO}/g' "${file}"
+  else
+    echo "Warning: ${file} not found, skipped replacement." >&2
+  fi
+done
 
 echo "[1/5] Install oh-my-bash..."
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+if [[ -d "$HOME/.oh-my-bash" ]]; then
+  echo "oh-my-bash already installed, skipped."
+else
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended
+fi
 
 echo "[2/5] Install ble.sh..."
 if [[ ! -d "${SCRIPT_DIR}/ble.sh" ]]; then
@@ -73,3 +79,4 @@ else
 fi
 
 echo "Done."
+echo "Note: run 'bash' to switch to a new shell with updated config."
