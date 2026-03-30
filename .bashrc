@@ -155,23 +155,5 @@ source "$OSH"/oh-my-bash.sh
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
-alias vi='vim'
-
-# Keep a fixed custom prompt and disable oh-my-bash prompt hook override.
-if declare -p PROMPT_COMMAND 2>/dev/null | grep -q '^declare \-a'; then
-  _pc=()
-  for _cmd in "${PROMPT_COMMAND[@]}"; do
-    [[ "${_cmd}" == "_omb_util_prompt_command_hook" ]] || _pc+=("${_cmd}")
-  done
-  PROMPT_COMMAND=("${_pc[@]}")
-  unset _pc _cmd
-else
-  PROMPT_COMMAND="${PROMPT_COMMAND//_omb_util_prompt_command_hook;}"
-  PROMPT_COMMAND="${PROMPT_COMMAND//;_omb_util_prompt_command_hook/}"
-  PROMPT_COMMAND="${PROMPT_COMMAND//_omb_util_prompt_command_hook/}"
-  PROMPT_COMMAND="${PROMPT_COMMAND#;}"
-  PROMPT_COMMAND="${PROMPT_COMMAND%;}"
-fi
-
 source -- ~/.local/share/blesh/ble.sh
-PS1="$(clock_prompt)$spack_env$python_venv ${_omb_prompt_bold_teal}\W $(scm_prompt_char_info)${ret_status}$ ${_omb_prompt_normal}"
+alias vi='vim'

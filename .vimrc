@@ -87,6 +87,6 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 set updatetime=300
 set shortmess+=c
 set signcolumn=yes
-" let g:coc_node_path = '/home/lufeifan/.nvm/versions/node/v20.20.2/bin/node'
+" let g:coc_node_path = '/home/luff/.nvm/versions/node/v20.20.2/bin/node'
 
 let g:rainbow_active = 1
