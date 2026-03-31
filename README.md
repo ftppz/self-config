@@ -36,6 +36,22 @@ chmod +x ./quick_setup.sh
 5. Install Vim plugins from `.vimrc` via `vim-plug`
 6. Install tmux plugins from `.tmux.conf` via TPM
 
+## Fish Setup
+
+Run:
+
+```bash
+chmod +x ./install_fish.sh
+./install_fish.sh
+```
+
+`install_fish.sh` will:
+
+1. Install `fish` (supports `apt`, `dnf`, `yum`, `pacman`, `zypper`, `brew`)
+2. Install `fisher`
+3. Install fish theme: `dracula/fish`
+4. Skip steps if already installed
+
 ## Notes
 
 - The setup script requires `curl`, `git`, `make`, `vim`, and `tmux`.
@@ -47,4 +63,3 @@ for oh-my-bash
 ``
 PS1="$(clock_prompt)$spack_env$python_venv ${_omb_prompt_bold_teal}\W $(scm_prompt_char_info)${ret_status}$ ${_omb_prompt_normal}"
 ``
-
