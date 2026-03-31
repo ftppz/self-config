@@ -48,9 +48,14 @@ chmod +x ./install_fish.sh
 `install_fish.sh` will:
 
 1. Install `fish` (supports `apt`, `dnf`, `yum`, `pacman`, `zypper`, `brew`)
-2. Install `fisher`
-3. Install fish theme: `dracula/fish`
-4. Skip steps if already installed
+   - On Ubuntu/Debian: install `software-properties-common`, add `ppa:fish-shell/release-4`, then install `fish`
+2. Skip install if `fish` is already available in `PATH`
+3. Verify installed fish version is strictly `> 3.4.0`
+4. Exit with error if version check fails and ask you to upgrade first
+5. Set default login shell to fish via `chsh -s "$(command -v fish)"` (or print manual command if it fails)
+6. Print a reminder to start a new session, then run in fish shell:
+   - `fish_config prompt choose informative_vcs`
+   - `fish_config theme choose dracula`
 
 ## Notes
 
