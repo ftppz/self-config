@@ -60,7 +60,7 @@ call plug#end()
 
 " Recommended python-syntax setting
 let g:python_highlight_all = 1
-colorscheme dracula
+" colorscheme dracula
 
 " --- vim-cmake configuration ---
 " Use F4 to toggle the CMake console
@@ -87,6 +87,5 @@ nnoremap <C-n> :NERDTreeToggle<CR>
 set updatetime=300
 set shortmess+=c
 set signcolumn=yes
-" let g:coc_node_path = '/home/luff/.nvm/versions/node/v20.20.2/bin/node'
 
 let g:rainbow_active = 1
